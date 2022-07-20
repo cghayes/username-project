@@ -1,9 +1,9 @@
 import React from 'react';
 import Button from './Button';
 
-const ErrorModal = ({ invalid, closeModal }) => {
+const ErrorModal = ({ closeModal, show }) => {
   return (
-    invalid && (
+    show && (
       <div className="error-modal">
         <div className="backdrop" onClick={closeModal} />
         <div className="error-modal__container card">

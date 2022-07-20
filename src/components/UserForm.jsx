@@ -8,11 +8,14 @@ const UserForm = () => {
   const [input, setInput] = useState({ name: "", age: "" });
   const [list, setList] = useState([]);
   const [submitAttempted, setSubmitAttempted] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const username = input.name;
   const age = input.age;
   const letterRegex = /[a-z]/i;
   const numRegex = /^\d+$/;
+  const isValidName =  username.trim().length > 1 && letterRegex.test(username.charAt(0));
+  const isValidAge = numRegex.test(age) && age > 4 && age < 100;
 
   const handleNameInput = (e) => {
     setInput({ ...input, name: e.target.value });
@@ -24,9 +27,6 @@ const UserForm = () => {
       setSubmitAttempted(false);
   };
 
-  const isValidName =  username.trim().length > 1 && letterRegex.test(username.charAt(0));
-  const isValidAge = numRegex.test(age) && age > 0 && age < 100;
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -36,6 +36,7 @@ const UserForm = () => {
       setSubmitAttempted(false);
     } else {
       setSubmitAttempted(true);
+      setShowModal(true);
     }
   };
 
@@ -56,12 +57,12 @@ const UserForm = () => {
   };
 
   const handleCloseModal = () => {
-    setSubmitAttempted(false);
+    setShowModal(false);
   };
 
   return (
     <>
-      <ErrorModal invalid={submitAttempted} closeModal={handleCloseModal} />
+      <ErrorModal closeModal={handleCloseModal} show={showModal} />
       <div className="form-container card">
         <form onSubmit={handleSubmit}>
           <label>
@@ -86,7 +87,7 @@ const UserForm = () => {
             <span className="info-icon">
               <InfoIcon />
               <Tooltip
-                content={"Must be between 1 and 100."}
+                content={"Must be between 5 and 100."}
               />
             </span>
           </label>
